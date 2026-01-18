@@ -2,52 +2,77 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
 {
-    use HasFactory;
-
-    // ✅ الأعمدة اللي نسمح بالتعبئة الجماعية لها (Mass Assignment)
+    /**
+     * ✅ الحقول المسموح تعبئتها (Mass Assignment)
+     * نخليها شاملة للحقول اللي عندك في migration تاع properties.
+     */
     protected $fillable = [
         'user_id',
+
+        // ✅ معلومات المالك الحقيقي للتواصل
         'owner_email',
         'owner_phone',
-        'operation',
-        'category',
+
+        // ✅ نوع العملية + نوع العقار
+        'operation',   // vente / location
+        'category',    // appartement / villa / studio
+
+        // ✅ معلومات الإعلان
         'title',
         'description',
         'city',
         'rooms',
         'area',
         'price',
-        'status',
+
+        // ✅ حالة الإعلان
+        'status',      // pending / approved / rejected
+
+        // ✅ عداد مرات الكراء (للأدمن)
         'rent_count',
     ];
 
-    // 🔹 المنزل تابع لمستخدم (الذي أضاف الإعلان)
+    /**
+     * ✅ صاحب الإعلان (المستخدم الذي أضاف العقار)
+     */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(\App\Models\User::class);
     }
 
-    // 🔹 المنزل عنده عدة صور
+    /**
+     * ✅ صور العقار
+     */
     public function images()
     {
-        return $this->hasMany(PropertyImage::class);
+        return $this->hasMany(\App\Models\PropertyImage::class);
     }
 
-    // 🔹 المنزل عنده عدة حجوزات (عدم التوفر)
+    /**
+     * ✅ حجوزات/عدم التوفر (للـ location)
+     */
     public function bookings()
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(\App\Models\Booking::class);
     }
 
-    // 🔹 المنزل عنده عدة طلبات شراء
+    /**
+     * ✅ طلبات الشراء (إن كنت تستعمل جدول purchase_requests)
+     */
     public function purchaseRequests()
     {
-        return $this->hasMany(PurchaseRequest::class);
+        return $this->hasMany(\App\Models\PurchaseRequest::class);
+    }
+
+    /**
+     * ✅ الطلبات (شراء/كراء) الجديدة (inquiries)
+     */
+    public function inquiries()
+    {
+        return $this->hasMany(\App\Models\Inquiry::class);
     }
 }
-

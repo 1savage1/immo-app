@@ -49,6 +49,12 @@ Route::middleware('auth')->group(function () {
 
     // ✅ إرسال الفورم (حفظ العقار + رفع الصور)
     Route::post('/properties', [PropertyController::class, 'store'])->name('properties.store');
+
+    // ✅ إرسال طلب (شراء/كراء) لعقار
+    // ✅ هذا route جديد: الزبون يسجل طلبه داخل جدول inquiries
+    Route::post('/properties/{property}/inquiries', [\App\Http\Controllers\InquiryController::class, 'store'])
+        ->whereNumber('property')
+        ->name('inquiries.store');
 });
 
 // ===============================
