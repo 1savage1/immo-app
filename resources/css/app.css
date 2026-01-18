@@ -1,0 +1,212 @@
+/* ✅ Bootstrap CSS */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* ✅ خلفية صفحة تسجيل الدخول/التسجيل (صورة + تغميق + لمسة زرقاء) */
+.bg-house-login{
+    min-height: 100vh;
+    background:
+        linear-gradient(135deg, rgba(0,0,0,.75), rgba(0,60,120,.55)),
+        url("/images/house-bg.jpg") center/cover no-repeat fixed;
+}
+
+/* ✅ Glass Card (زجاجي) */
+.glass-card{
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.22);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.45);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* ✅ Hover للـ Glass Card */
+.glass-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 24px 70px rgba(0,0,0,.55);
+    border-color: rgba(255,255,255,.35);
+}
+
+/* ✅ حقول الإدخال داخل Glass */
+.glass-card .form-control{
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.18);
+    color: #fff;
+}
+
+.glass-card .form-control:focus{
+    background: rgba(0,0,0,.40);
+    border-color: rgba(90,180,255,.75);
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.25);
+    color: #fff;
+}
+
+/* ✅ زر أزرق مناسب */
+.btn-primary{
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    border: none;
+}
+.btn-primary:hover{
+    filter: brightness(1.05);
+}
+/* =========================
+   ✅ تصميم كروت العقارات (Dark Glass)
+   ========================= */
+
+.property-card{
+    border-radius: 18px;
+    overflow: hidden;
+
+    /* ✅ كارت زجاجي داكن (أسود + أزرق) */
+    background: linear-gradient(135deg, rgba(0,0,0,.65), rgba(13,110,253,.12));
+    border: 1px solid rgba(255,255,255,.14);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow: 0 12px 40px rgba(0,0,0,.25);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* ✅ hover */
+.property-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    border-color: rgba(90,180,255,.45);
+}
+
+/* ✅ الصورة */
+.property-img{
+    height: 220px;
+    object-fit: cover;
+}
+
+/* ✅ عنوان العقار داخل الكارت */
+.property-card h5{
+    color: #fff;
+}
+
+/* ✅ النصوص الثانوية (نوع العقار، غرف، مساحة...) */
+.meta-text{
+    color: rgba(255,255,255,.85) !important;
+}
+
+/* ✅ Badge السعر */
+.price-badge{
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(0,0,0,.65);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid rgba(255,255,255,.18);
+}
+
+/* ✅ Badge غير متاح */
+.unavailable-badge{
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(220,53,69,.85);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid rgba(255,255,255,.18);
+}
+
+/* ✅ زر Voir plus */
+.btn-soft{
+    background: rgba(13,110,253,.18);
+    border: 1px solid rgba(90,180,255,.35);
+    color: #fff;
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+.btn-soft:hover{
+    background: rgba(13,110,253,.30);
+    border-color: rgba(90,180,255,.60);
+    color: #fff;
+}
+
+/* ✅ خلفية الصفحة الرئيسية */
+.bg-home{
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(13,110,253,.25), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(0,0,0,.85), rgba(0,0,0,.95)),
+        linear-gradient(135deg, rgba(0,0,0,.92), rgba(13,110,253,.10));
+    color: #fff;
+}
+
+/* ✅ عنوان الهيرو */
+.hero-title{
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+.hero-subtitle{
+    color: rgba(255,255,255,.75);
+}
+/* =========================
+   ✅ Navbar Glass (أسود + Blur)
+   ========================= */
+.navbar-glass{
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+/* نصوص وروابط الـ navbar */
+.navbar-glass .navbar-brand,
+.navbar-glass .nav-link{
+  color: #fff !important;
+}
+
+/* زر Connexion يكون واضح */
+.navbar-glass .btn{
+  border-color: rgba(255,255,255,0.35) !important;
+  color: #fff !important;
+}
+.navbar-glass .btn:hover{
+  border-color: rgba(255,255,255,0.65) !important;
+}
+/* ✅ نترك مساحة للـ navbar الثابت */
+body{
+  padding-top: 72px;
+}
+/* =========================
+   ✅ خلفية عامة للموقع (أسود + أزرق متدرج)
+   ========================= */
+html, body{
+  min-height: 100%;
+}
+
+body{
+  background:
+    radial-gradient(1000px 600px at 20% 10%, rgba(0, 120, 255, 0.30), transparent 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(0, 60, 160, 0.25), transparent 55%),
+    linear-gradient(135deg, #05070d 0%, #0b1220 45%, #04060a 100%);
+  color: #fff;
+  padding-top: 72px; /* مساحة للـ navbar الثابت */
+}
+.navbar-glass{
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  z-index: 1030;
+}
+
+.navbar-glass .navbar-brand,
+.navbar-glass .nav-link{
+  color: #fff !important;
+}
