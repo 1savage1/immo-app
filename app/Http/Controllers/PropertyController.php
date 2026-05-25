@@ -19,7 +19,7 @@ class PropertyController extends Controller
             ->latest()
             ->paginate(9);
 
-        return view('properties.index', compact('properties'));
+        return view('welcome', compact('properties'));
     }
 
     /**
@@ -33,7 +33,7 @@ class PropertyController extends Controller
             ->latest()
             ->paginate(9);
 
-        return view('properties.vente', compact('properties'));
+        return view('vente', compact('properties'));
     }
 
     /**
@@ -47,7 +47,7 @@ class PropertyController extends Controller
             ->latest()
             ->paginate(9);
 
-        return view('properties.location', compact('properties'));
+        return view('location', compact('properties'));
     }
 
     /**

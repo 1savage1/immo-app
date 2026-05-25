@@ -1,40 +1,31 @@
 @extends('layouts.app')
 
-@section('title', 'Vente')
+@section('title', 'Vente - ImmoPlus')
 
 @section('content')
-<div class="container">
-
-    <div class="text-center mb-5">
-        <h1 class="fw-bold mb-2">Biens à vendre</h1>
-        <p class="opacity-75 mb-0">Découvrez les meilleures offres de vente</p>
+    <div class="mb-10">
+        <h1 class="text-4xl font-extrabold text-white mb-3">Biens à Vendre</h1>
+        <p class="text-lg text-gray-400">Trouvez la maison de vos rêves parmi nos annonces de vente.</p>
     </div>
 
-    <div class="row g-4">
-
-        {{-- مثال بطاقة --}}
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="property-card position-relative">
-                <span class="price-badge">12 000 000 DA</span>
-
-                <img class="w-100 property-img"
-                     src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200"
-                     alt="Maison">
-
-                <div class="p-4">
-                    <h5 class="fw-bold mb-1">Villa - Oran</h5>
-                    <p class="meta-text mb-3">Vente • Villa</p>
-
-                    <div class="d-flex gap-3 mb-4 meta-text">
-                        <div>🛏️ 5 chambres</div>
-                        <div>📐 260 m²</div>
-                    </div>
-
-                    <a href="#" class="btn btn-soft w-100">Voir plus</a>
-                </div>
-            </div>
+    @if($properties->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            @foreach($properties as $property)
+                <x-property-card :property="$property" />
+            @endforeach
         </div>
-
-    </div>
-</div>
+        
+        <div class="mt-12 flex justify-center">
+            {{ $properties->links('pagination::tailwind') }}
+        </div>
+    @else
+        <div class="glass-panel py-20 text-center rounded-3xl">
+            <div class="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-12 h-12 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">Aucun bien en vente pour le moment</h3>
+            <p class="text-gray-400 max-w-md mx-auto text-lg">Nous mettons régulièrement à jour nos annonces. Revenez plus tard ou consultez nos annonces de location.</p>
+            <a href="{{ route('location') }}" class="btn-primary inline-block mt-8">Voir les locations</a>
+        </div>
+    @endif
 @endsection
