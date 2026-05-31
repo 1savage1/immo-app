@@ -18,7 +18,7 @@ class InquiryController extends Controller
         if ($property->status !== 'approved') {
             abort(404);
         }
-
+         
         // ✅ 1) Validation (مبسّط)
         $validated = $request->validate([
             'type' => ['required', 'in:achat,location'],
