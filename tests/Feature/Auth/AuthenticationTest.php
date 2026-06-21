@@ -10,6 +10,7 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** 1 */
     public function test_login_screen_can_be_rendered(): void
     {
         $response = $this->get('/login');
@@ -17,7 +18,8 @@ class AuthenticationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    /** 2 */
+    public function test_users_can_authenticate(): void
     {
         $user = User::factory()->create();
 
@@ -27,10 +29,11 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('home'));
     }
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
+    /** 3 */
+    public function test_users_cannot_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
@@ -42,6 +45,7 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
+    /** 4 */
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();

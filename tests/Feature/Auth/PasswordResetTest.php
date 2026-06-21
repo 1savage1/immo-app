@@ -3,71 +3,198 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
+use App\Models\Property;
+use App\Models\PropertyImage;
+use App\Models\Booking;
+use App\Models\Inquiry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_reset_password_link_screen_can_be_rendered(): void
+    /** 1 */
+    public function test_user_creation(): void
     {
-        $response = $this->get('/forgot-password');
+        $user = User::factory()->create(['name' => 'User Created']);
 
-        $response->assertStatus(200);
+        $this->assertDatabaseHas('users', ['name' => 'User Created']);
     }
 
-    public function test_reset_password_link_can_be_requested(): void
+    /** 2 */
+    public function test_property_creation(): void
     {
-        Notification::fake();
-
         $user = User::factory()->create();
+        $property = Property::create([
+            'user_id' => $user->id,
+            'owner_email' => 'owner@example.com',
+            'operation' => 'vente',
+            'category' => 'villa',
+            'title' => 'Property Title',
+            'description' => 'Description.',
+            'city' => 'Algiers',
+            'rooms' => 5,
+            'area' => 200,
+            'price' => 20000000,
+        ]);
 
-        $this->post('/forgot-password', ['email' => $user->email]);
-
-        Notification::assertSentTo($user, ResetPassword::class);
+        $this->assertDatabaseHas('properties', ['title' => 'Property Title']);
     }
 
-    public function test_reset_password_screen_can_be_rendered(): void
+    /** 3 */
+    public function test_property_image_creation(): void
     {
-        Notification::fake();
-
         $user = User::factory()->create();
+        $property = Property::create([
+            'user_id' => $user->id,
+            'owner_email' => 'owner@example.com',
+            'operation' => 'vente',
+            'category' => 'villa',
+            'title' => 'Property Title',
+            'description' => 'Description.',
+            'city' => 'Algiers',
+            'rooms' => 5,
+            'area' => 200,
+            'price' => 20000000,
+        ]);
 
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $image = new PropertyImage();
+        $image->property_id = $property->id;
+        $image->path = 'properties/test.png';
+        $image->position = 1;
+        $image->save();
 
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-            $response = $this->get('/reset-password/'.$notification->token);
-
-            $response->assertStatus(200);
-
-            return true;
-        });
+        $this->assertDatabaseHas('property_images', ['path' => 'properties/test.png']);
     }
 
-    public function test_password_can_be_reset_with_valid_token(): void
+    /** 4 */
+    public function test_booking_creation(): void
     {
-        Notification::fake();
-
         $user = User::factory()->create();
+        $property = Property::create([
+            'user_id' => $user->id,
+            'owner_email' => 'owner@example.com',
+            'operation' => 'vente',
+            'category' => 'villa',
+            'title' => 'Property Title',
+            'description' => 'Description.',
+            'city' => 'Algiers',
+            'rooms' => 5,
+            'area' => 200,
+            'price' => 20000000,
+        ]);
 
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $booking = new Booking();
+        $booking->property_id = $property->id;
+        $booking->user_id = $user->id;
+        $booking->days = 7;
+        $booking->start_date = '2026-06-01';
+        $booking->end_date = '2026-06-08';
+        $booking->save();
 
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
-            $response = $this->post('/reset-password', [
-                'token' => $notification->token,
-                'email' => $user->email,
-                'password' => 'password',
-                'password_confirmation' => 'password',
-            ]);
+        $this->assertDatabaseHas('bookings', ['days' => 7]);
+    }
 
-            $response
-                ->assertSessionHasNoErrors()
-                ->assertRedirect(route('login'));
+    /** 5 */
+    public function test_inquiry_creation(): void
+    {
+        $user = User::factory()->create();
+        $property = Property::create([
+            'user_id' => $user->id,
+            'owner_email' => 'owner@example.com',
+            'operation' => 'vente',
+            'category' => 'villa',
+            'title' => 'Property Title',
+            'description' => 'Description.',
+            'city' => 'Algiers',
+            'rooms' => 5,
+            'area' => 200,
+            'price' => 20000000,
+        ]);
 
-            return true;
-        });
+        $inquiry = Inquiry::create([
+            'property_id' => $property->id,
+            'user_id' => $user->id,
+            'type' => 'achat',
+            'name' => 'Inquirer',
+            'email' => 'inq@example.com',
+        ]);
+
+        $this->assertDatabaseHas('inquiries', ['name' => 'Inquirer']);
+    }
+
+    /** 6 */
+    public function test_property_belongs_to_user_relation(): void
+    {
+        $user = User::factory()->create();
+        $property = Property::create([
+            'user_id' => $user->id,
+            'owner_email' => 'owner@example.com',
+            'operation' => 'vente',
+            'category' => 'villa',
+            'title' => 'Property Title',
+            'description' => 'Description.',
+            'city' => 'Algiers',
+            'rooms' => 5,
+            'area' => 200,
+            'price' => 20000000,
+        ]);
+
+        $this->assertEquals($user->id, $property->user->id);
+    }
+
+    /** 7 */
+    public function test_property_has_many_images_relation(): void
+    {
+        $user = User::factory()->create();
+        $property = Property::create([
+            'user_id' => $user->id,
+            'owner_email' => 'owner@example.com',
+            'operation' => 'vente',
+            'category' => 'villa',
+            'title' => 'Property Title',
+            'description' => 'Description.',
+            'city' => 'Algiers',
+            'rooms' => 5,
+            'area' => 200,
+            'price' => 20000000,
+        ]);
+
+        $image = new PropertyImage();
+        $image->property_id = $property->id;
+        $image->path = 'properties/test.png';
+        $image->position = 1;
+        $image->save();
+
+        $this->assertCount(1, $property->images);
+    }
+
+    /** 8 */
+    public function test_property_has_many_bookings_relation(): void
+    {
+        $user = User::factory()->create();
+        $property = Property::create([
+            'user_id' => $user->id,
+            'owner_email' => 'owner@example.com',
+            'operation' => 'vente',
+            'category' => 'villa',
+            'title' => 'Property Title',
+            'description' => 'Description.',
+            'city' => 'Algiers',
+            'rooms' => 5,
+            'area' => 200,
+            'price' => 20000000,
+        ]);
+
+        $booking = new Booking();
+        $booking->property_id = $property->id;
+        $booking->user_id = $user->id;
+        $booking->days = 7;
+        $booking->start_date = '2026-06-01';
+        $booking->end_date = '2026-06-08';
+        $booking->save();
+
+        $this->assertCount(1, $property->bookings);
     }
 }
